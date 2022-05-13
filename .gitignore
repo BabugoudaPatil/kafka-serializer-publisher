@@ -1,8 +1,19 @@
 # Compiled class file
 *.class
+**/target/
 
 # Log file
 *.log
+
+### macOS files ###
+.DS_Store
+**/.DS_Store/**
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
 # BlueJ files
 *.ctxt

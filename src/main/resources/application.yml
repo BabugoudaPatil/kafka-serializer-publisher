@@ -1,0 +1,29 @@
+server:
+  port: 8089
+logging:
+  level:
+    root: INFO
+spring:
+  application:
+    name: local-kafka-tester
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: '127.0.0.1:9092'
+          auto-create-topics: true
+          producer-properties:
+            schema:
+              registry:
+                url: 'http://127.0.0.1:8081'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true

@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    stream:
+      default:
+        producer:
+          useNativeEncoding: true
+      binders:
+        avro:
+          type: kafka
+          default-candidate: true
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      producer-properties:
+                        key:
+                          serializer: org.apache.kafka.common.serialization.StringSerializer
+                        value:
+                          serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+                          subject.name.strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
+                        use.latest.version: true
+        json:
+          type: kafka
