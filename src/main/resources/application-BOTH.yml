@@ -7,7 +7,6 @@ spring:
       binders:
         avro:
           type: kafka
-          default-candidate: true
           environment:
             spring:
               cloud:

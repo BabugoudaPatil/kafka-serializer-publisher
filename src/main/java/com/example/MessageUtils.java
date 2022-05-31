@@ -68,7 +68,7 @@ public class MessageUtils {
             for (ParsedSchema schema1 : schemas) {
                 log.debug(schema1.name() + ",");
             }
-            schema = schemas.stream().filter(s -> s.name().equalsIgnoreCase(type)).findFirst();
+            schema = schemas.stream().filter(s -> type.equalsIgnoreCase(s.name())).findFirst();
             log.debug(String.valueOf(schemas));
         } catch (IOException | RestClientException e) {
             log.error("Exception while parsing schema", e);
