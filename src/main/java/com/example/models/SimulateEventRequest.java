@@ -1,11 +1,19 @@
 package com.example.models;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Builder
@@ -15,11 +23,12 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
+@JsonDeserialize(converter = SimulateEventRequestDeserializer.class)
 public class SimulateEventRequest {
     /**
      * A mandatory topic name field.
      */
-    @NotBlank(message = "topic field is required. It can't be null or blank.", groups = ValidatorGroups.AllValidator.class)
+    @NotBlank(message = "topic field is required. It can't be null or blank.", groups = {ValidatorGroups.JsonValidator.class, ValidatorGroups.AvroValidator.class})
     private String topic;
 
     /**
@@ -29,23 +38,21 @@ public class SimulateEventRequest {
     private String avroSource;
 
     /**
-     * A mandatory payload specified as a JSON object
+     * A payload specified as a JSON object
      */
-    @JsonIgnore
-    @NotEmpty(message = "payload json is required. It can't be null or blank.", groups = ValidatorGroups.AllValidator.class)
+    @JsonSetter(nulls = Nulls.SET)
+    @NotNull(message = "payload json is required. It can't be null or blank.", groups = ValidatorGroups.AvroValidator.class)
     private String payload;
 
     /**
-     * A mandatory map of headers.
+     * A non-mandatory map of headers.
      */
-    @Singular
-    @JsonProperty("headers")
-    @NotEmpty(message = "Headers are required. It can't be empty")
-    private Map<@NotBlank(message = "Header key name is required. It can't be empty") String,
-            @NotBlank(message = "Header value is required. It can't be empty", groups = ValidatorGroups.AllValidator.class) String> headers;
+    private Map<@NotBlank(message = "Header key name is required. It can't be empty", groups = {ValidatorGroups.JsonValidator.class, ValidatorGroups.AvroValidator.class}) String,
+            @NotBlank(message = "Header value is required. It can't be empty", groups = {ValidatorGroups.JsonValidator.class, ValidatorGroups.AvroValidator.class}) String> headers;
 
-    @JsonSetter("payload")
+    @JsonSetter(value = "payload")
     void setJsonPayload(JsonNode data) {
         this.payload = data.toString();
     }
+
 }

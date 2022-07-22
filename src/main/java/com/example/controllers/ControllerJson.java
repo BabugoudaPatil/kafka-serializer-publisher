@@ -10,20 +10,23 @@ import org.springframework.util.MimeType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.MessageUtils.MIME_JSON;
+
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
 @Profile("JSON")
 public class ControllerJson {
 
-    private static final MimeType MIME_JSON = new MimeType("application", "json");
-
     private final MessageUtils messageUtils;
 
     @PostMapping("/json")
     public ResponseEntity<?> postJSON(@Validated(value = ValidatorGroups.JsonValidator.class) @RequestBody SimulateEventRequest body) {
-        body.getHeaders().put("content-type", MIME_JSON.toString());
-        return new ResponseEntity<>(messageUtils.sendMessage(body.getTopic(), null, messageUtils.createMessage(body.getPayload().getBytes(), body.getHeaders()), MIME_JSON));
+        byte[] payload = null;
+        if (body.getPayload() != null) {
+            payload = body.getPayload().getBytes();
+        }
+        return new ResponseEntity<>(messageUtils.sendMessage(body.getTopic(), null, messageUtils.createMessage(payload, body.getHeaders(), MIME_JSON), MIME_JSON));
     }
 
 }
