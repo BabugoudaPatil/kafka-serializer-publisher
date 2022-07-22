@@ -3,6 +3,7 @@ server:
 logging:
   level:
     root: INFO
+#    org.springframework.web: DEBUG # Uncomment to add logs for Request and Response details
 spring:
   application:
     name: local-kafka-tester
