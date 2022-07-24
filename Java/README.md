@@ -6,12 +6,13 @@ to be allowed to be usable for multiple type publications.
 
 
 ## Setup
-Below values can be changed:
+Below values can be changed in the `application.yaml`
 - Port `18089` free to run on
 - Kafka cluster running on `127.0.0.1:9092`
 - Schema Registry running `127.0.0.1:8081`
   - With some test schemas preloaded
 - Postman (or equivalent tool) to POST data to app
+- Available profiles `default`, `JSON`, `AVRO`
 
 ## API Requests
 ### Payload
@@ -64,3 +65,20 @@ Below values can be changed:
             "<exampleHeaderKey2>": "<exampleHeaderValue2>"
         }
     }
+
+## Optional Configurations
+Using either `AVRO` or `JSON` as the spring profile locks the application into producing events of that type.
+Doing this will configure the application to only expose the rest API corresponding to the datatype.
+
+## Notes
+- The `converter` and `org.apache.avro.io` packages placed at `src/main/java` are used to represent the below dependency
+while preventing security vulnerabilities.
+
+```
+<!-- https://mvnrepository.com/artifact/tech.allegro.schema.json2avro/converter -->
+<dependency>
+<groupId>tech.allegro.schema.json2avro</groupId>
+<artifactId>converter</artifactId>
+<version>0.2.2</version>
+</dependency>
+```

@@ -4,14 +4,10 @@ import com.example.MessageUtils;
 import com.example.models.SimulateEventRequest;
 import com.example.models.ValidatorGroups;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 import static com.example.MessageUtils.MIME_AVRO;
 import static com.example.MessageUtils.MIME_JSON;

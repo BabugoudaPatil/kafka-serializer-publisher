@@ -6,7 +6,7 @@ to be allowed to be usable for multiple type publications.
 
 
 ## Setup
-Below values can be changed:
+Below values can be changed in the `.env` or `defaults.yaml`:
 - Port `18089` free to run on
 - Kafka cluster running on `127.0.0.1:9092`
 - Schema Registry running `127.0.0.1:8081`
@@ -15,6 +15,10 @@ Below values can be changed:
 
 ## API Requests
 ### Payload
+- **id**
+  - _Data-Type_: string
+  - _Description_: the key identifier
+  - _Required_: NO
 - **topic**
   - _Data-Type_: string
   - _Description_: the topic for the message to be published to
@@ -38,6 +42,7 @@ Below values can be changed:
 ### Produce AVRO encoded message
     POST http://127.0.0.1:18089/avro
     {
+        "id": "<optional id here>",
         "topic": "<your topic here>",
         "avroSource": "<your schema subject>",
         "payload": {
@@ -54,6 +59,7 @@ Below values can be changed:
 ### Produce JSON formatted message
     POST http://127.0.0.1:18089/json
     {
+        "id": "<optional id here>",
         "topic": "<your topic here>",
         "payload": {
             "<examplePayloadKey1>": "<examplePayloadValue1>",
@@ -64,3 +70,11 @@ Below values can be changed:
             "<exampleHeaderKey2>": "<exampleHeaderValue2>"
         }
     }
+
+## Notes
+- The `go-kafka-avro` package is used to represent the below dependency
+while allowing slight modification for AVRO publishing with the SchemaId.
+
+```
+github.com/dangkaka/go-kafka-avro v0.0.0-20200609051134-e714c259f1e9
+```

@@ -1,0 +1,11 @@
+app:
+  name: kafka-serializer-publisher
+  debug: true
+  port: 18089
+  base_path: /
+proxies:
+kafka:
+  source: kafka-serializer-publisher
+otel:
+  enabled: true
+  timeout: 10s
